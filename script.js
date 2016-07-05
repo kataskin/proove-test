@@ -15,3 +15,18 @@ var formIsValid = function() {
 window.onload = formIsValid;
 inputLogin.oninput = formIsValid;
 inputPassword.oninput = formIsValid;
+
+//localStorage
+
+var storage = localStorage.getItem("login");
+
+if (storage) {
+  inputLogin.value = storage;
+  inputPassword.focus();
+} else {
+  inputLogin.focus();
+}
+
+buttonLogIn.addEventListener("click", function() {
+  localStorage.setItem("login", inputLogin.value);
+});
