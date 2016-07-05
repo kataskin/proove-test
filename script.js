@@ -27,13 +27,14 @@ if (storage) {
   inputLogin.focus();
 }
 
-//GETrequest
+//POSTrequest
 
 var sendRequest = function() {
   var formData = new FormData();
   var xhr = new XMLHttpRequest();
 
-  formData.append("login", "1234");
+  formData.append("login", inputLogin.value);
+  formData.append("password", inputPassword.value);
 
   xhr.onerror = function() {
     alert("Что-то пошло не так!");
@@ -43,6 +44,8 @@ var sendRequest = function() {
   xhr.ontimeout = function() {
     alert("Проверьте подключение!");
   };
+
+  xhr.open("POST", "login.json", true);
 
   xhr.onreadystatechange = function(evt) {
     if (xhr.readyState == 4) {
@@ -54,13 +57,13 @@ var sendRequest = function() {
         } else {
           alert("Неверный логин/пароль!");
         }
+      } else
+         alert("Статус " + xhr.status);
       }
-    }
   };
 
 
-  xhr.open("GET", "login.json", true);
-  xhr.send();
+  xhr.send(formData);
 };
 
 buttonLogIn.addEventListener("click", function() {
