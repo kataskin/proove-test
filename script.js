@@ -27,6 +27,43 @@ if (storage) {
   inputLogin.focus();
 }
 
+//GETrequest
+
+var sendRequest = function() {
+  var formData = new FormData();
+  var xhr = new XMLHttpRequest();
+
+  formData.append("login", "1234");
+
+  xhr.onerror = function() {
+    alert("Что-то пошло не так!");
+  };
+
+  xhr.timeout = 3 * 60 * 1000;
+  xhr.ontimeout = function() {
+    alert("Проверьте подключение!");
+  };
+
+  xhr.onreadystatechange = function(evt) {
+    if (xhr.readyState == 4) {
+      if(xhr.status == 200) {
+        var response = evt.target.response;
+        var responseObj = JSON.parse(response);
+        if ("token" in responseObj) {
+          alert(responseObj["token"]);
+        } else {
+          alert("Неверный логин/пароль!");
+        }
+      }
+    }
+  };
+
+
+  xhr.open("GET", "login.json", true);
+  xhr.send();
+};
+
 buttonLogIn.addEventListener("click", function() {
   localStorage.setItem("login", inputLogin.value);
+  sendRequest();
 });
